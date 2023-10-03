@@ -1,11 +1,13 @@
 #include <iostream> 
-// #include <math>
-#include <bits/stdc++.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
 using namespace std;
 
 int main(){
     ifstream inputFile;
-    inputFile.open("D:/IITD/Sem-5/COL 333/A3/test.graph");
+    inputFile.open("C:/Users/corpd/Desktop/COL333/test.graph");
 
     if (!inputFile.is_open()) {
         cerr << "Error opening file" << std::endl;
