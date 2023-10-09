@@ -3,15 +3,46 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <unistd.h>
+#define endl "\n";
 using namespace std;
 
-int main(){
-    ifstream inputFile;
-    inputFile.open("C:/Users/corpd/Desktop/COL333/test.graph");
+int main(int argc, char* argv[]){
+    // ifstream inputFile;
+    // // inputFile.open("D:/IITD/Sem-5/COL 333/A3/test.graph");
+    // inputFile.open("/mnt/d/IITD/Sem-5/COL 333/A3/test.graph");
 
-    if (!inputFile.is_open()) {
-        cerr << "Error opening file" << std::endl;
-        return 1;
+    //////////////////
+    // if (argc != 2) {
+    //     cerr << "Usage: " << argv[0] << " <input_filename>" << endl;
+    //     return 1;
+    // }
+
+    // const string inputFileName = argv[1];
+
+    // // Get the current working directory
+    // char cwd[PATH_MAX];
+    // if (getcwd(cwd, sizeof(cwd)) == nullptr) {
+    //     perror("getcwd() error");
+    //     return 1;
+    // }
+
+    // const string inputFilePath = string(cwd) + "/" + inputFileName;
+    // cout<<string(cwd)<<endl;
+    // ifstream inputFile(inputFilePath);
+
+    // if (!inputFile.is_open()) {
+    //     cerr << "Error opening file" << std::endl;
+    //     return 1;
+    // }
+    ///////////////
+
+    string inputfilename ( argv[1] );
+    fstream inputFile;
+    inputFile.open(inputfilename, ios::in);
+    if (!inputFile) {
+        cout << "No such file\n";
+        exit( 0 );
     }
 
     string line;
@@ -20,6 +51,10 @@ int main(){
     // Process the read line
         inp.push_back(line);
     // std::cout << "Read line: " << line << std::endl;
+    }
+    if (inp.empty()) {
+        cerr << "Input file is empty." << endl;
+        return 1;
     }
     
     std::string input = inp[0];
@@ -31,12 +66,19 @@ int main(){
         tokens.push_back(stoi(token));
     }
     inputFile.close();
+
+    if (tokens.size() < 4) {
+        cerr << "Invalid input format. Expected at least 4 tokens." << endl;
+        return 1;
+    }
+
     int n, k1, k2;
     n=tokens[0],k1=tokens[2],k2=tokens[3];
     vector<int> deg1(n+1,0);
     vector<int> is1(n+1,1);
     vector<int> deg2(n+1,0);
     vector<int> is2(n+1,1);
+    // n=tokens[0],k1=tokens[2],k2=tokens[3];
     bool edges[n+1][n+1];
     for(int i=0;i<=n;i++){for(int j=0;j<=n;j++) edges[i][j]=false;}
 
@@ -50,6 +92,12 @@ int main(){
         deg2[u]++; deg2[v]++;
         edges[u][v]=1;
         edges[v][u]=1;
+    }
+    if(k1>n || k2>n || (k1*(k1-1)/2)+(k2*(k2-1)/2)>tokens[1] ){
+        std::cout<<"p cnf "<<1<<" "<<2<<endl;
+        std::cout<<-1<<" "<<0<<"\n";
+        std::cout<<1<<" "<<0<<"\n";
+        return 0;
     }
     bool run=true;
     while(run){
@@ -91,13 +139,18 @@ int main(){
 
     // initialize not possible leaves false
     for(int i=1;i<=n;i++){
-        if(!is1[i]) clauses.push_back({-i,0});
-        if(!is2[i]) clauses.push_back({-i-d*x,0});
+        if(!is1[i]) {
+            clauses.push_back({-i,0});
+        }
+        if(!is2[i]) {
+            clauses.push_back({-i-d*x,0});
+        }
     }
     
     // initialize extra leaves false
     for(int i=n+1;i<=x;i++){
         clauses.push_back({-i,0});
+        
         clauses.push_back({-i-d*x,0});
     }
 
@@ -173,13 +226,12 @@ int main(){
     clauses.push_back({(d-1)*x+k1,0});
     clauses.push_back({(2*d-1)*x+k2,0});
 
-    cout<<"c  simple_v3_c2.cnf"<<endl;
-    cout<<"c"<<endl;
+    // cout<<"c  simple_v3_c2.cnf"<<endl;
+    // cout<<"c"<<endl;
     cout<<"p cnf "<<2*d*x<<" "<<clauses.size()<<endl;
 
     for(auto ef : clauses){
         for(auto fe : ef) cout<<fe<<" ";
         cout<<endl;
     }
-
 }
