@@ -32,11 +32,11 @@ int main(){
     }
     inputFile.close();
     int n, k1, k2;
+    n=tokens[0],k1=tokens[2],k2=tokens[3];
     vector<int> deg1(n+1,0);
     vector<int> is1(n+1,1);
     vector<int> deg2(n+1,0);
     vector<int> is2(n+1,1);
-    n=tokens[0],k1=tokens[2],k2=tokens[3];
     bool edges[n+1][n+1];
     for(int i=0;i<=n;i++){for(int j=0;j<=n;j++) edges[i][j]=false;}
 
