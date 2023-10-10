@@ -178,6 +178,8 @@ int main(int argc, char* argv[]){
     //     if(x=='.') break;
     //     file+=x;
     // }
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
     std::string inputfilename(argv[1]);
     std::string file = "";
