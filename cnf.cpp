@@ -4,39 +4,11 @@
 #include <vector>
 #include <string>
 #include <unistd.h>
-#define endl "\n";
 using namespace std;
 
 int main(int argc, char* argv[]){
-    // ifstream inputFile;
-    // // inputFile.open("D:/IITD/Sem-5/COL 333/A3/test.graph");
-    // inputFile.open("/mnt/d/IITD/Sem-5/COL 333/A3/test.graph");
-
-    //////////////////
-    // if (argc != 2) {
-    //     cerr << "Usage: " << argv[0] << " <input_filename>" << endl;
-    //     return 1;
-    // }
-
-    // const string inputFileName = argv[1];
-
-    // // Get the current working directory
-    // char cwd[PATH_MAX];
-    // if (getcwd(cwd, sizeof(cwd)) == nullptr) {
-    //     perror("getcwd() error");
-    //     return 1;
-    // }
-
-    // const string inputFilePath = string(cwd) + "/" + inputFileName;
-    // cout<<string(cwd)<<endl;
-    // ifstream inputFile(inputFilePath);
-
-    // if (!inputFile.is_open()) {
-    //     cerr << "Error opening file" << std::endl;
-    //     return 1;
-    // }
-    ///////////////
-
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     string inputfilename ( argv[1] );
     fstream inputFile;
     inputFile.open(inputfilename, ios::in);
